@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div{
+            text-align:center;
+            padding:20px 0;
+        }
+        input{
+            width:300px;
+            height:30px;
+            padding:0 20px;
+            font-size:20px;
+        }
+        div button{
+            width:60px;
+            font-size:20px;
+            padding:3px;
+            background:#0fc;
+            outline:none;
+        }
+        thead{
+            font-size:24px;
+        }
+        table{
+            border-collapse:collapse;
+            text-align:center;
+            font-size:16px;
+        }
+        table button{
+            width:60px;
+            font-size:16px;
+            padding:3px;
+            background:#f00;
+            outline:none;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <input id="txt" type="text"/>
+        <button id="btn">添加</button>
+    </div>
+    <table border="1" width="100%">
+        <thead>
+        <tr>
+            <th>用户输入</th>
+            <th>编辑</th>
+        </tr>
+        </thead>
+        <tbody id="tbd"></tbody>
+    </table>
+
+    <script src="js/jquery-1.11.3.js"></script>
+
+    <script>
+        //使用JQuery
+        $("#btn").click(function(){
+            var v=$("#txt").val();
+            if(v==""){
+                alert("添加不能为空,请重新输入");
+            }else{
+                var tr=$(`<tr><td>${v}</td><td><button>删除</button></td></tr>`);
+                $("#tbd").append(tr);
+                //清空文本框并聚焦
+                $("#txt").val("").focus();
+            }
+        });
+
+        //删除
+        $("#tbd").on("click","button",function(){
+            //弹框提示
+            if(confirm("确定要删除行吗？")){
+                $(this).parent().parent().remove();
+            }
+        })
+
+    </script>
+</body>
+</html>
