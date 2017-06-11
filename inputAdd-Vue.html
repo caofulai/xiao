@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/vue-resource.js"></script>
+    <style>
+        .box{
+            text-align:center;
+            padding:20px 0;
+        }
+        .box input{
+            width:300px;
+            height:30px;
+            padding:0 20px;
+            font-size:20px;
+        }
+        .box button{
+            width:60px;
+            font-size:20px;
+            padding:3px;
+            background:#0fc;
+            outline:none;
+        }
+        thead{
+            font-size:24px;
+        }
+        table{
+            border-collapse:collapse;
+            text-align:center;
+            font-size:16px;
+        }
+        table button{
+            width:60px;
+            font-size:16px;
+            padding:3px;
+            background:#f00;
+            outline:none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="example">
+    <input-add></input-add>
+</div>
+
+<!--创建动态script-->
+<script type="text/x-template" id="input-add-template">
+    <div>
+        <div-box></div-box>
+        <table-box></table-box>
+    </div>
+</script>
+<script type="text/x-template" id="div-box-template">
+    <div class="box">
+        <input type="text" v-model="txt"/>
+        <button @click="inputAdd">添加</button>
+    </div>
+</script>
+<script type="text/x-template" id="table-box-template">
+    <table border="1" width="100%">
+        <thead>
+        <tr>
+            <th>用户输入</th>
+            <th>编辑</th>
+        </tr>
+        </thead>
+        <tbody id="tbd">
+            <item-box  v-for="tmp in myList" v-bind:content="tmp"></item-box>
+        </tbody>
+    </table>
+</script>
+<script type="text/x-template" id="item-template">
+    <tr>
+        <td>{{content}}</td>
+        <td @click="handleDelete">删除</td>
+    </tr>
+</script>
+
+
+
+<script>
+
+    //创建组件div-box
+    Vue.component("div-box",{
+        template:"#div-box-template",
+        data:function(){
+            return{
+                txt:""
+            }
+        },
+        methods:{
+            inputAdd:function(){
+                //将用户输入保存到input-add中
+                this.$parent.list.push(this.txt);
+            }
+        }
+    });
+    //创建组件table-box
+    Vue.component("table-box",{
+        template:"#table-box-template",
+        props:["myList"]
+    });
+    //创建组件item-box
+    Vue.component("item-box",{
+        template:"#item-template",
+        props:["content"],
+        methods:{
+            handleDelete:function(){
+                this.$el.remove();
+            }
+        }
+    });
+    //创建复合组件
+    Vue.component("input-add",{
+        template:"#input-add-template",
+        data:function(){
+            return{
+                list:[]
+            }
+        }
+    });
+
+
+    new Vue({
+        el:"#example"
+    });
+
+
+
+</script>
+</body>
+</html>

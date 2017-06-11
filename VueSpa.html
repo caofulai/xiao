@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <!--顶部导航栏-->
+        <div class="nav">
+            <!--通过传入to属性指定连接-->
+            <router-link to="/vue">简易Vue</router-link>
+            <router-link to="/es6">趣味ES6</router-link>
+            <router-link to="/career">人在职场</router-link>
+        </div>
+        <!--底部内容区-->
+        <div class="content">
+            <!--匹配到的组件将渲染在这里-->
+            <router-view></router-view>
+        </div>
+    </div>
+
+    <script>
+        //定义路由对应的组件
+        //简易Vue对应的视图组件
+        const vueComponent={
+            template:"<div><h1>这里是简易Vue教程</h1></div>"
+        };
+        //趣味ES6对应的视图组件
+        const es6Component={
+            template:"<div><h1>这里是趣味ES6</h1></div>"
+        };
+        //人在职场对应的视图组件
+        const careerComponent={
+            template:"<div><h1>这里是混口饭吃与工资待遇</h1></div>"
+        };
+
+        //创建router实例，并定义导航和组件的映射关系
+        const router=new VueRouter({
+            //配置routes
+            routes:[
+                //指定默认显示的组件
+                {
+                    path:"/",
+                    component:vueComponent
+                },
+                //定义3个导航和组件的映射关系
+                {
+                    path:"/vue",
+                    component:vueComponent
+                },
+                {
+                    path:"/es6",
+                    component:es6Component
+                },
+                {
+                    path:"/career",
+                    component:careerComponent
+                },
+                //指定异常处理
+                {
+                    path:"*",
+                    component:vueComponent
+                }
+            ]
+        });
+        //创建Vue实例，注入路由router
+        const app=new Vue({
+            el:"#app",
+            //es6语法：直接router就可以
+            router:router
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0"/>
+    <title>任务列表</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .edit{
+            display:block;
+            width:80%;
+            height:40px;
+            line-height:40px;
+            margin:50px auto;
+            padding:0 20px;
+            box-sizing: border-box;
+            border-radius:5px;
+            border:2px solid #f00;
+            outline:0;
+            box-shadow:0 0 5px #ff3;
+            font-size:1.5em;
+        }
+        .list{
+            margin:0 auto;
+            width:80%;
+        }
+        .unit{
+            position:relative;
+            padding:10px 0;
+            border-bottom:1px solid #efefef;
+        }
+        .unit:last-child{
+            border-bottom:0;
+        }
+        .finish{
+            text-decoration:line-through;
+            color:#ccc;
+        }
+        .del{
+            background:#f00;
+            text-decoration:none;
+            position:absolute;
+            right:0;
+            font-size:1.2em;
+            border:0;
+            outline:0;
+            padding:2px 5px;
+            border-radius:5px;
+            color:#fff;
+        }
+        .empty{
+            font-size:1.3em;
+            color:#bbb;
+            text-align:center;
+            padding:10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <input class="edit" type="text"
+               v-model="task.content"
+               placeholder="输入任务"
+                @keydown.enter="addTask"/>
+        <!--任务列表显示区-->
+        <div class="list">
+            <div class="unit" v-for="(item,index) in list">
+                <input type="checkbox" @click="changeState(index)"/>
+                <!--当任务的finished为true的时候就会添加样式class="finish"，否则不会-->
+                <span :class="{'finish':item.finished}">{{item.content}}</span>
+                <button @click="removeTask(index)" class="del">删除</button>
+            </div>
+        </div>
+        <!--如果没有任务就提示-->
+        <p v-if="list.length===0" class="empty">暂无任务</p>
+    </div>
+
+    <script>
+
+        //创建Vue实例，注入路由router
+        const app=new Vue({
+            el:"#app",
+            data:{
+                //完成任务的数据结构
+                task:{
+                    content:"",
+                    finished:false,//未完成
+                    deleted:false//未删除
+                },
+                //定义空数组用来保存用户输入的任务
+                list:[]
+            },
+            methods:{
+                //添加任务的函数
+                addTask:function(){
+                    //将task存入list数组
+                    this.list.push(this.task);
+                    //将任务保存到list后 ，重置task
+                    this.task={
+                        content:"",
+                        finished:false,//未完成
+                        deleted:false//未删除
+                    }
+                },
+                //点击修改任务状态
+                changeState:function(index){
+                    let curState=this.list[index].finished;
+                    //将finished的值取反
+                    this.list[index].finished=!curState;
+                },
+                //点击删除任务函数
+                removeTask:function(index){
+                    //使用splice操作删除数组指定项
+                    this.list.splice(index,1);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
